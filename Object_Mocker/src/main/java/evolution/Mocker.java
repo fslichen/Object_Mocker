@@ -19,6 +19,16 @@ public class Mocker {
 		return string.substring(0, 1).toUpperCase() + string.substring(1);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T> T mockMethod(Method method, Object currentInstance) throws Exception {
+		Object[] arguments = new Object[method.getParameterCount()];
+		int i = 0;
+		for (Class<?> parameterType : method.getParameterTypes()) {
+			arguments[i++] = mockObject(parameterType);
+		}
+		return (T) method.invoke(currentInstance, arguments);
+	}
+	
 	public String fieldName(Method method) {// Getter or Setter
 		String methodName = method.getName();
 		if ((methodName.startsWith("set") || methodName.startsWith("get"))) {
