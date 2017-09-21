@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Mocker {
 	private List<String> stringVocabulary;
@@ -54,12 +55,22 @@ public class Mocker {
 	}
 	
 	public Double mockDouble() {
-		return (Math.random() < .5 ? 1 : -1) * Math.random() * Double.MAX_VALUE;
+		return new Random().nextDouble();
 	}
 	
 	public Integer mockInt() {
-		Double result = (Math.random() < .5 ? 1 : -1) * Math.random() * Integer.MAX_VALUE;
-		return result.intValue();
+		return new Random().nextInt();
+	}
+	
+	public Integer mockInt(String fieldName) {
+		if (fieldName.contains("age")) {
+			return new Random().nextInt(120);
+		}
+		return new Random().nextInt();
+	}
+	
+	public Long mockLong() {
+		return new Random().nextLong();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -106,11 +117,12 @@ public class Mocker {
 	public <T> T mockPojo(Class<T> clazz) throws Exception {
 		T t = clazz.newInstance();
 		for (Method setter : setters(clazz)) {
+			String fieldName = fieldName(setter);
 			Class<?> parameterType = setter.getParameterTypes()[0];
 			if (parameterType == String.class) {
 				setter.invoke(t, mockString());
 			} else if (parameterType == int.class || parameterType == Integer.class) {
-				setter.invoke(t, mockInt());
+				setter.invoke(t, mockInt(fieldName));
 			} else if (parameterType == List.class) {
 				setter.invoke(t, mockList(setter, 0));
 			} else if (parameterType == Map.class) {
