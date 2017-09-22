@@ -1,4 +1,4 @@
-package evolution.pojo;
+package evolution.example.pojo;
 
 import java.util.Date;
 import java.util.List;

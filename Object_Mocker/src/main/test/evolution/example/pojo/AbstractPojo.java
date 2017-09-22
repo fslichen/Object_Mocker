@@ -1,4 +1,4 @@
-package evolution.pojo;
+package evolution.example.pojo;
 
 public abstract class AbstractPojo {
 	private String name;

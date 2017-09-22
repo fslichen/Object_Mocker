@@ -1,4 +1,4 @@
-package evolution.pojo;
+package evolution.example.pojo;
 
 public class AlphaPojo extends AbstractPojo {
 	private String address;
@@ -10,7 +10,6 @@ public class AlphaPojo extends AbstractPojo {
 	}
 	@Override
 	public String toString() {
-		return address + getName() + getAge();
+		return "AlphaPojo [address=" + address + ", name=" + getName() + ", age=" + getAge() + "]";
 	}
-	
 }
