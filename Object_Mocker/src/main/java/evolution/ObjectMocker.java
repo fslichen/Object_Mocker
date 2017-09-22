@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-public class Mocker {
+public class ObjectMocker {
 	private List<String> stringVocabulary;
 	
-	public Mocker() {
+	public ObjectMocker() {
 		stringVocabulary = Arrays.asList("Donald Trump", "Cat", "Dog", "Abraham Lincoln", UUID.randomUUID().toString());
 	}
 	
@@ -69,7 +69,7 @@ public class Mocker {
 	
 	@SuppressWarnings("unchecked")
 	public <T> List<T> mockList(Method method, int parameterIndex) throws Exception {
-		Class<?> clazz = typeArguments(method, parameterIndex).get(0);
+		Class<?> clazz = parameterTypeArguments(method, parameterIndex).get(0);
 		List<T> list = new LinkedList<>();
 		for (int i = 0; i < 2; i++) {
 			list.add((T) mockObject(clazz));
@@ -79,7 +79,7 @@ public class Mocker {
 	
 	@SuppressWarnings("unchecked")
 	public <T, V> Map<T, V> mockMap(Method method, int parameterIndex) throws Exception {
-		List<Class<?>> typeArguments = typeArguments(method, parameterIndex);
+		List<Class<?>> typeArguments = parameterTypeArguments(method, parameterIndex);
 		Class<?> keyClass = typeArguments.get(0);
 		Class<?> valueClass = typeArguments.get(1);
 		Map<T, V> map = new HashMap<>();
@@ -190,7 +190,7 @@ public class Mocker {
 		return setters;
 	}
 		
-	public List<Class<?>> typeArguments(Method method, int parameterIndex) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+	public List<Class<?>> parameterTypeArguments(Method method, int parameterIndex) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		Type[] types = method.getGenericParameterTypes();
 		String typeName = types[parameterIndex].getTypeName();
 		List<Class<?>> typeArguments = new LinkedList<>();
@@ -199,5 +199,10 @@ public class Mocker {
 			typeArguments.add(clazz);
 		}
 		return typeArguments;
+	}
+	
+	public Class<?> returnTypeArgument(Method method) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+		String typeName = method.getGenericReturnType().getTypeName();
+		return Class.forName(typeName.substring(typeName.indexOf("<") + 1 , typeName.indexOf(">")));
 	}
 }
