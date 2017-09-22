@@ -1,5 +1,6 @@
 package evolution.pojo;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +8,15 @@ public class AnyPojo {
 	private String name;
 	private Integer age;
 	private AnotherPojo anotherPojo;
+	private Date date;
 	private List<AnotherPojo> list;
 	private Map<String, AnotherPojo> map;
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	public String getName() {
 		return name;
 	}
@@ -41,7 +49,7 @@ public class AnyPojo {
 	}
 	@Override
 	public String toString() {
-		return "AnyPojo [name=" + name + ", age=" + age + ", anotherPojo=" + anotherPojo + ", list=" + list + ", map="
-				+ map + "]";
+		return "AnyPojo [name=" + name + ", age=" + age + ", anotherPojo=" + anotherPojo + ", date=" + date + ", list="
+				+ list + ", map=" + map + "]";
 	}
 }
