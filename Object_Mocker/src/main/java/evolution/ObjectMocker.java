@@ -31,7 +31,11 @@ public class ObjectMocker {
 			} else if (parameterType == Map.class) {
 				arguments[i] = mockMap(method, i);
 			} else {
-				arguments[i] = mockObject(parameterType);
+				try {
+					arguments[i] = mockObject(parameterType);
+				} catch (Exception e) {
+					arguments[i] = null;
+				}
 			}
 			i++;
 		}
